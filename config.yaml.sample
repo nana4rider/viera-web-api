@@ -1,0 +1,5 @@
+typeorm:
+  type: sqlite
+  database: '.data/sqlite3.db'
+  synchronize: false
+  entities: ['src/entity/*.entity.js']
