@@ -10,8 +10,8 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { VieraClient, VieraKey } from 'panasonic-viera-ts';
 import { DeviceSetAppDto } from 'src/dto/device.set-app.dto';
+import { DeviceSetKeyDto } from 'src/dto/device.set-key.dto';
 import { DeviceSetMuteDto } from 'src/dto/device.set-mute.dto';
-import { DeviceSetOperationDto } from 'src/dto/device.set-operation.dto';
 import { DeviceSetPowerDto } from 'src/dto/device.set-power.dto';
 import { DeviceSetVolumeDto } from 'src/dto/device.set-volume.dto';
 import { Device } from 'src/entity/device.entity';
@@ -114,11 +114,11 @@ export class DeviceController {
     await client.launchApp(data.value);
   }
 
-  @Post(':id/command/operation')
+  @Post(':id/command/key')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async sendKey(
+  async setKey(
     @Param('id', VieraClientPipe) client: VieraClient,
-    @Body() data: DeviceSetOperationDto,
+    @Body() data: DeviceSetKeyDto,
   ) {
     await client.sendKey(data.value);
   }
