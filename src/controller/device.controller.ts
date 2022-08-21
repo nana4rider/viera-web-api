@@ -48,7 +48,6 @@ export class DeviceController {
   }
 
   @Post(':id/command/power')
-  @HttpCode(HttpStatus.NO_CONTENT)
   async setPower(
     @Param('id', VieraClientPipe) client: VieraClient,
     @Body() data: DeviceSetPowerDto,
@@ -58,10 +57,12 @@ export class DeviceController {
       (data.state === 'ON' && powerOn) ||
       (data.state === 'OFF' && !powerOn)
     ) {
-      return;
+      return { state: powerOn ? 'ON' : 'OFF' };
     }
 
     await client.sendKey(VieraKey.power);
+
+    return { state: powerOn ? 'OFF' : 'ON' };
   }
 
   @Get(':id/command/volume')
