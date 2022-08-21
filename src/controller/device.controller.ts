@@ -48,6 +48,7 @@ export class DeviceController {
   }
 
   @Post(':id/command/power')
+  @HttpCode(HttpStatus.OK)
   async setPower(
     @Param('id', VieraClientPipe) client: VieraClient,
     @Body() data: DeviceSetPowerDto,
