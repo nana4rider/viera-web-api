@@ -12,7 +12,7 @@ async function bootstrap() {
   app.setGlobalPrefix(basePath);
 
   const options = new DocumentBuilder()
-    .setTitle('VIERA Web API')
+    .setTitle('VIERA Unofficial Web API')
     .setDescription('VIERA Unofficial Web API')
     .setVersion('2.0')
     .setBasePath(basePath)

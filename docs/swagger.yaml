@@ -210,7 +210,7 @@ paths:
           description: ''
       tags: *ref_1
 info:
-  title: VIERA Web API
+  title: VIERA Unofficial Web API
   description: VIERA Unofficial Web API
   version: '2.0'
   contact: {}
