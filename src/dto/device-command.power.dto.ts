@@ -11,7 +11,7 @@ export class DeviceCommandPowerRequestDto {
 
 const detailStates = ['ON', 'OFF'] as const;
 
-export class DeviceCommandDetailDto {
+export class DeviceCommandPowerDetailDto {
   @ApiProperty({ enum: detailStates })
   readonly state: typeof detailStates[number];
 }

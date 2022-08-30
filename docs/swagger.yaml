@@ -49,7 +49,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeviceCommandDetailDto'
+                $ref: '#/components/schemas/DeviceCommandPowerDetailDto'
       tags: &ref_1
         - command
     post:
@@ -73,7 +73,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeviceCommandDetailDto'
+                $ref: '#/components/schemas/DeviceCommandPowerDetailDto'
       tags: *ref_1
   /v2/devices/{id}/command/volume:
     get:
@@ -228,7 +228,7 @@ components:
       required:
         - id
         - deviceName
-    DeviceCommandDetailDto:
+    DeviceCommandPowerDetailDto:
       type: object
       properties:
         state:

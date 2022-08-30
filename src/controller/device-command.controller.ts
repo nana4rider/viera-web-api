@@ -16,7 +16,7 @@ import {
 import { DeviceCommandKeyDto } from 'src/dto/device-command.key.dto';
 import { DeviceCommandMuteDto } from 'src/dto/device-command.mute.dto';
 import {
-  DeviceCommandDetailDto,
+  DeviceCommandPowerDetailDto,
   DeviceCommandPowerRequestDto,
 } from 'src/dto/device-command.power.dto';
 import { DeviceCommandVolumeDto } from 'src/dto/device-command.volume.dto';
@@ -34,11 +34,11 @@ export class DeviceCommandController {
     required: true,
     type: Number,
   })
-  @ApiResponse({ status: HttpStatus.OK, type: DeviceCommandDetailDto })
+  @ApiResponse({ status: HttpStatus.OK, type: DeviceCommandPowerDetailDto })
   @Get(':id/command/power')
   async getPower(
     @Param('id', VieraClientPipe) client: VieraClient,
-  ): Promise<DeviceCommandDetailDto> {
+  ): Promise<DeviceCommandPowerDetailDto> {
     const powerOn = await client.isPowerOn();
     return { state: powerOn ? 'ON' : 'OFF' };
   }
@@ -49,12 +49,12 @@ export class DeviceCommandController {
     required: true,
     type: Number,
   })
-  @ApiResponse({ status: HttpStatus.OK, type: DeviceCommandDetailDto })
+  @ApiResponse({ status: HttpStatus.OK, type: DeviceCommandPowerDetailDto })
   @Post(':id/command/power')
   async setPower(
     @Param('id', VieraClientPipe) client: VieraClient,
     @Body() data: DeviceCommandPowerRequestDto,
-  ): Promise<DeviceCommandDetailDto> {
+  ): Promise<DeviceCommandPowerDetailDto> {
     const powerOn = await client.isPowerOn();
     if (
       (data.state === 'ON' && powerOn) ||
