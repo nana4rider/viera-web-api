@@ -1,6 +1,6 @@
 {
   "name": "viera-web-api",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "",
   "author": "nana4rider",
   "private": false,
@@ -35,11 +35,11 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "js-yaml": "^4.1.0",
+    "mysql2": "^2.3.3",
     "panasonic-viera-ts": "github:nana4rider/panasonic-viera-ts",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "sqlite3": "^5.0.11",
     "typeorm": "^0.3.7",
     "typeorm-util-ts": "github:nana4rider/typeorm-util-ts"
   },

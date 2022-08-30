@@ -1,5 +1,8 @@
 typeorm:
-  type: sqlite
-  database: '.data/sqlite3.db'
+  type: mysql
+  host:
+  port:
+  username:
+  password:
+  database:
   synchronize: false
-  entities: ['src/entity/*.entity.js']

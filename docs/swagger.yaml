@@ -1,0 +1,147 @@
+openapi: 3.0.0
+paths:
+  /v2/devices:
+    get:
+      operationId: DeviceController_index
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: &ref_0
+        - devices
+  /v2/devices/{id}:
+    get:
+      operationId: DeviceController_findOne
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+  /v2/devices/{id}/command/power:
+    get:
+      operationId: DeviceController_getPower
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+    post:
+      operationId: DeviceController_setPower
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceSetPowerDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+  /v2/devices/{id}/command/volume:
+    get:
+      operationId: DeviceController_getVolume
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+    post:
+      operationId: DeviceController_setVolume
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceSetVolumeDto'
+      responses:
+        '204':
+          description: ''
+      tags: *ref_0
+  /v2/devices/{id}/command/mute:
+    get:
+      operationId: DeviceController_getMute
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+    post:
+      operationId: DeviceController_setMute
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceSetMuteDto'
+      responses:
+        '204':
+          description: ''
+      tags: *ref_0
+  /v2/devices/{id}/command/apps:
+    get:
+      operationId: DeviceController_getApps
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+  /v2/devices/{id}/command/app:
+    post:
+      operationId: DeviceController_setApp
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceSetAppDto'
+      responses:
+        '204':
+          description: ''
+      tags: *ref_0
+  /v2/devices/{id}/command/key:
+    post:
+      operationId: DeviceController_setKey
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceSetKeyDto'
+      responses:
+        '204':
+          description: ''
+      tags: *ref_0
+info:
+  title: VIERA Web API
+  description: VIERA Unofficial Web API
+  version: '2.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    DeviceSetPowerDto:
+      type: object
+      properties: {}
+    DeviceSetVolumeDto:
+      type: object
+      properties: {}
+    DeviceSetMuteDto:
+      type: object
+      properties: {}
+    DeviceSetAppDto:
+      type: object
+      properties: {}
+    DeviceSetKeyDto:
+      type: object
+      properties: {}

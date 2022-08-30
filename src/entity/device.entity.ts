@@ -27,9 +27,6 @@ export class Device {
   @Column('text')
   encKey!: string;
 
-  @Column('text', { nullable: true })
-  lightWebhook!: string;
-
   @CreateDateColumn({
     transformer: DateTimeTransformer.instance,
     select: false,
