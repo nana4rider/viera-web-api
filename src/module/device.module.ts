@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VieraClient } from 'panasonic-viera-ts';
+import { DeviceCommandController } from 'src/controller/device-command.controller';
 import { DeviceController } from '../controller/device.controller';
 import { Device } from '../entity/device.entity';
 import { DeviceService } from '../service/device.service';
@@ -43,7 +44,7 @@ const clientFactory = {
 @Module({
   imports: [TypeOrmModule.forFeature([Device])],
   providers: [DeviceService, clientFactory],
-  controllers: [DeviceController],
+  controllers: [DeviceController, DeviceCommandController],
 })
 export class DeviceModule implements NestModule {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function

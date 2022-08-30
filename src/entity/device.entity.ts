@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { DateTime } from 'luxon';
 import {
   Column,
@@ -12,18 +13,23 @@ import { DateTimeTransformer } from 'typeorm-util-ts';
 @Entity()
 @Unique(['appId'])
 export class Device {
+  @ApiProperty()
   @PrimaryGeneratedColumn({ type: 'integer' })
   id!: number;
 
+  @ApiProperty()
   @Column('text')
   deviceName!: string;
 
+  @ApiProperty()
   @Column('text')
   host!: string;
 
+  @ApiProperty()
   @Column('text')
   appId!: string;
 
+  @ApiProperty()
   @Column('text')
   encKey!: string;
 

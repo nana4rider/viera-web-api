@@ -7,115 +7,208 @@ paths:
       responses:
         '200':
           description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceDetailDto'
       tags: &ref_0
         - devices
   /v2/devices/{id}:
     get:
       operationId: DeviceController_findOne
-      parameters: []
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Device ID
+          schema:
+            type: number
       responses:
         '200':
           description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceDetailDto'
       tags: *ref_0
   /v2/devices/{id}/command/power:
     get:
-      operationId: DeviceController_getPower
-      parameters: []
+      operationId: DeviceCommandController_getPower
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Device ID
+          schema:
+            type: number
       responses:
         '200':
           description: ''
-      tags: *ref_0
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceCommandDetailDto'
+      tags: &ref_1
+        - command
     post:
-      operationId: DeviceController_setPower
-      parameters: []
+      operationId: DeviceCommandController_setPower
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Device ID
+          schema:
+            type: number
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DeviceSetPowerDto'
+              $ref: '#/components/schemas/DeviceCommandPowerRequestDto'
       responses:
         '200':
           description: ''
-      tags: *ref_0
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceCommandDetailDto'
+      tags: *ref_1
   /v2/devices/{id}/command/volume:
     get:
-      operationId: DeviceController_getVolume
-      parameters: []
+      operationId: DeviceCommandController_getVolume
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Device ID
+          schema:
+            type: number
       responses:
         '200':
           description: ''
-      tags: *ref_0
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceCommandVolumeDto'
+      tags: *ref_1
     post:
-      operationId: DeviceController_setVolume
-      parameters: []
+      operationId: DeviceCommandController_setVolume
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Device ID
+          schema:
+            type: number
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DeviceSetVolumeDto'
+              $ref: '#/components/schemas/DeviceCommandVolumeDto'
       responses:
         '204':
           description: ''
-      tags: *ref_0
+      tags: *ref_1
   /v2/devices/{id}/command/mute:
     get:
-      operationId: DeviceController_getMute
-      parameters: []
+      operationId: DeviceCommandController_getMute
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Device ID
+          schema:
+            type: number
       responses:
         '200':
           description: ''
-      tags: *ref_0
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceCommandMuteDto'
+      tags: *ref_1
     post:
-      operationId: DeviceController_setMute
-      parameters: []
+      operationId: DeviceCommandController_setMute
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Device ID
+          schema:
+            type: number
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DeviceSetMuteDto'
+              $ref: '#/components/schemas/DeviceCommandMuteDto'
       responses:
         '204':
           description: ''
-      tags: *ref_0
+      tags: *ref_1
   /v2/devices/{id}/command/apps:
     get:
-      operationId: DeviceController_getApps
-      parameters: []
+      operationId: DeviceCommandController_getApps
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Device ID
+          schema:
+            type: number
       responses:
         '200':
           description: ''
-      tags: *ref_0
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceCommandAppDetailDto'
+      tags: *ref_1
   /v2/devices/{id}/command/app:
     post:
-      operationId: DeviceController_setApp
-      parameters: []
+      operationId: DeviceCommandController_setApp
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Device ID
+          schema:
+            type: number
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DeviceSetAppDto'
+              $ref: '#/components/schemas/DeviceCommandAppRequestDto'
       responses:
         '204':
           description: ''
-      tags: *ref_0
+      tags: *ref_1
   /v2/devices/{id}/command/key:
     post:
-      operationId: DeviceController_setKey
-      parameters: []
+      operationId: DeviceCommandController_setKey
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Device ID
+          schema:
+            type: number
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DeviceSetKeyDto'
+              $ref: '#/components/schemas/DeviceCommandKeyDto'
       responses:
         '204':
           description: ''
-      tags: *ref_0
+      tags: *ref_1
 info:
   title: VIERA Web API
   description: VIERA Unofficial Web API
@@ -125,18 +218,138 @@ tags: []
 servers: []
 components:
   schemas:
-    DeviceSetPowerDto:
+    DeviceDetailDto:
       type: object
-      properties: {}
-    DeviceSetVolumeDto:
+      properties:
+        id:
+          type: number
+        deviceName:
+          type: string
+      required:
+        - id
+        - deviceName
+    DeviceCommandDetailDto:
       type: object
-      properties: {}
-    DeviceSetMuteDto:
+      properties:
+        state:
+          type: string
+          enum:
+            - 'ON'
+            - 'OFF'
+      required:
+        - state
+    DeviceCommandPowerRequestDto:
       type: object
-      properties: {}
-    DeviceSetAppDto:
+      properties:
+        state:
+          type: string
+          enum:
+            - 'ON'
+            - 'OFF'
+            - TOGGLE
+      required:
+        - state
+    DeviceCommandVolumeDto:
       type: object
-      properties: {}
-    DeviceSetKeyDto:
+      properties:
+        value:
+          type: number
+      required:
+        - value
+    DeviceCommandMuteDto:
       type: object
-      properties: {}
+      properties:
+        value:
+          type: boolean
+      required:
+        - value
+    DeviceCommandAppDetailDto:
+      type: object
+      properties:
+        label:
+          type: string
+        productId:
+          type: string
+        icon:
+          type: string
+      required:
+        - label
+        - productId
+        - icon
+    DeviceCommandAppRequestDto:
+      type: object
+      properties:
+        value:
+          type: string
+      required:
+        - value
+    DeviceCommandKeyDto:
+      type: object
+      properties:
+        value:
+          type: string
+          enum:
+            - NRC_POWER-ONOFF
+            - NRC_RECLIST-ONOFF
+            - NRC_DISP_MODE-ONOFF
+            - NRC_CHG_INPUT-ONOFF
+            - NRC_DATA-ONOFF
+            - NRC_APPS-ONOFF
+            - NRC_MENU-ONOFF
+            - NRC_BLUE-ONOFF
+            - NRC_RED-ONOFF
+            - NRC_GREEN-ONOFF
+            - NRC_YELLOW-ONOFF
+            - NRC_SUBMENU-ONOFF
+            - NRC_HOME-ONOFF
+            - NRC_EPG-ONOFF
+            - NRC_RETURN-ONOFF
+            - NRC_UP-ONOFF
+            - NRC_DOWN-ONOFF
+            - NRC_LEFT-ONOFF
+            - NRC_RIGHT-ONOFF
+            - NRC_ENTER-ONOFF
+            - NRC_NET_TD-ONOFF
+            - NRC_NET_BS-ONOFF
+            - NRC_NET_CS-ONOFF
+            - NRC_D1-ONOFF
+            - NRC_D2-ONOFF
+            - NRC_D3-ONOFF
+            - NRC_D4-ONOFF
+            - NRC_D5-ONOFF
+            - NRC_D6-ONOFF
+            - NRC_D7-ONOFF
+            - NRC_D8-ONOFF
+            - NRC_D9-ONOFF
+            - NRC_D0-ONOFF
+            - NRC_D11-ONOFF
+            - NRC_D12-ONOFF
+            - NRC_CANCEL-ONOFF
+            - NRC_MUTE-ONOFF
+            - NRC_CH_UP-ONOFF
+            - NRC_CH_DOWN-ONOFF
+            - NRC_VOLUP-ONOFF
+            - NRC_VOLDOWN-ONOFF
+            - NRC_SKIP_PREV-ONOFF
+            - NRC_SKIP_NEXT-ONOFF
+            - NRC_REW-ONOFF
+            - NRC_FF-ONOFF
+            - NRC_REC-ONOFF
+            - NRC_STOP-ONOFF
+            - NRC_PAUSE-ONOFF
+            - NRC_PLAY-ONOFF
+            - NRC_MPX-ONOFF
+            - NRC_ECO-ONOFF
+            - NRC_VIERA_LINK-ONOFF
+            - NRC_30S_SKIP-ONOFF
+            - NRC_GUIDE-ONOFF
+            - NRC_SPLIT-ONOFF
+            - NRC_CC-ONOFF
+            - NRC_OFFTIMER-ONOFF
+            - MACRO_TV-ONOFF
+            - MACRO_VIDEO-ONOFF
+            - MACRO_HDMI2-ONOFF
+            - MACRO_HDMI3-ONOFF
+            - MACRO_HDMI4-ONOFF
+      required:
+        - value

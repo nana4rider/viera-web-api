@@ -21,6 +21,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
 
   fs.writeFileSync('./docs/swagger.yaml', dump(document, {}));
+  SwaggerModule.setup('/docs', app, document);
 
   await app.listen(process.env.PORT ? Number(process.env.PORT) : 3000);
 }
