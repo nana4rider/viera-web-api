@@ -15,11 +15,11 @@ paths:
                   $ref: '#/components/schemas/DeviceDetailDto'
       tags: &ref_0
         - devices
-  /v2/devices/{id}:
+  /v2/devices/{deviceId}:
     get:
       operationId: DeviceController_findOne
       parameters:
-        - name: id
+        - name: deviceId
           required: true
           in: path
           description: Device ID
@@ -33,11 +33,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/DeviceDetailDto'
       tags: *ref_0
-  /v2/devices/{id}/command/power:
+  /v2/devices/{deviceId}/command/power:
     get:
       operationId: DeviceCommandController_getPower
       parameters:
-        - name: id
+        - name: deviceId
           required: true
           in: path
           description: Device ID
@@ -55,7 +55,7 @@ paths:
     post:
       operationId: DeviceCommandController_setPower
       parameters:
-        - name: id
+        - name: deviceId
           required: true
           in: path
           description: Device ID
@@ -75,11 +75,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/DeviceCommandPowerDetailDto'
       tags: *ref_1
-  /v2/devices/{id}/command/volume:
+  /v2/devices/{deviceId}/command/volume:
     get:
       operationId: DeviceCommandController_getVolume
       parameters:
-        - name: id
+        - name: deviceId
           required: true
           in: path
           description: Device ID
@@ -96,7 +96,7 @@ paths:
     post:
       operationId: DeviceCommandController_setVolume
       parameters:
-        - name: id
+        - name: deviceId
           required: true
           in: path
           description: Device ID
@@ -112,11 +112,11 @@ paths:
         '204':
           description: ''
       tags: *ref_1
-  /v2/devices/{id}/command/mute:
+  /v2/devices/{deviceId}/command/mute:
     get:
       operationId: DeviceCommandController_getMute
       parameters:
-        - name: id
+        - name: deviceId
           required: true
           in: path
           description: Device ID
@@ -133,7 +133,7 @@ paths:
     post:
       operationId: DeviceCommandController_setMute
       parameters:
-        - name: id
+        - name: deviceId
           required: true
           in: path
           description: Device ID
@@ -149,11 +149,11 @@ paths:
         '204':
           description: ''
       tags: *ref_1
-  /v2/devices/{id}/command/apps:
+  /v2/devices/{deviceId}/command/apps:
     get:
       operationId: DeviceCommandController_getApps
       parameters:
-        - name: id
+        - name: deviceId
           required: true
           in: path
           description: Device ID
@@ -169,42 +169,104 @@ paths:
                 items:
                   $ref: '#/components/schemas/DeviceCommandAppDetailDto'
       tags: *ref_1
-  /v2/devices/{id}/command/app:
+  /v2/devices/{deviceId}/command/launchApp/{productId}:
     post:
       operationId: DeviceCommandController_setApp
       parameters:
-        - name: id
+        - name: deviceId
           required: true
           in: path
           description: Device ID
           schema:
             type: number
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DeviceCommandAppRequestDto'
+        - name: productId
+          required: true
+          in: path
+          schema:
+            type: string
       responses:
         '204':
           description: ''
       tags: *ref_1
-  /v2/devices/{id}/command/key:
+  /v2/devices/{deviceId}/command/sendKey/{vieraKey}:
     post:
       operationId: DeviceCommandController_setKey
       parameters:
-        - name: id
+        - name: deviceId
           required: true
           in: path
           description: Device ID
           schema:
             type: number
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DeviceCommandKeyDto'
+        - name: vieraKey
+          required: true
+          in: path
+          description: Viera Key
+          schema:
+            type: string
+            enum:
+              - NRC_POWER-ONOFF
+              - NRC_RECLIST-ONOFF
+              - NRC_DISP_MODE-ONOFF
+              - NRC_CHG_INPUT-ONOFF
+              - NRC_DATA-ONOFF
+              - NRC_APPS-ONOFF
+              - NRC_MENU-ONOFF
+              - NRC_BLUE-ONOFF
+              - NRC_RED-ONOFF
+              - NRC_GREEN-ONOFF
+              - NRC_YELLOW-ONOFF
+              - NRC_SUBMENU-ONOFF
+              - NRC_HOME-ONOFF
+              - NRC_EPG-ONOFF
+              - NRC_RETURN-ONOFF
+              - NRC_UP-ONOFF
+              - NRC_DOWN-ONOFF
+              - NRC_LEFT-ONOFF
+              - NRC_RIGHT-ONOFF
+              - NRC_ENTER-ONOFF
+              - NRC_NET_TD-ONOFF
+              - NRC_NET_BS-ONOFF
+              - NRC_NET_CS-ONOFF
+              - NRC_D1-ONOFF
+              - NRC_D2-ONOFF
+              - NRC_D3-ONOFF
+              - NRC_D4-ONOFF
+              - NRC_D5-ONOFF
+              - NRC_D6-ONOFF
+              - NRC_D7-ONOFF
+              - NRC_D8-ONOFF
+              - NRC_D9-ONOFF
+              - NRC_D0-ONOFF
+              - NRC_D11-ONOFF
+              - NRC_D12-ONOFF
+              - NRC_CANCEL-ONOFF
+              - NRC_MUTE-ONOFF
+              - NRC_CH_UP-ONOFF
+              - NRC_CH_DOWN-ONOFF
+              - NRC_VOLUP-ONOFF
+              - NRC_VOLDOWN-ONOFF
+              - NRC_SKIP_PREV-ONOFF
+              - NRC_SKIP_NEXT-ONOFF
+              - NRC_REW-ONOFF
+              - NRC_FF-ONOFF
+              - NRC_REC-ONOFF
+              - NRC_STOP-ONOFF
+              - NRC_PAUSE-ONOFF
+              - NRC_PLAY-ONOFF
+              - NRC_MPX-ONOFF
+              - NRC_ECO-ONOFF
+              - NRC_VIERA_LINK-ONOFF
+              - NRC_30S_SKIP-ONOFF
+              - NRC_GUIDE-ONOFF
+              - NRC_SPLIT-ONOFF
+              - NRC_CC-ONOFF
+              - NRC_OFFTIMER-ONOFF
+              - MACRO_TV-ONOFF
+              - MACRO_VIDEO-ONOFF
+              - MACRO_HDMI2-ONOFF
+              - MACRO_HDMI3-ONOFF
+              - MACRO_HDMI4-ONOFF
       responses:
         '204':
           description: ''
@@ -221,12 +283,12 @@ components:
     DeviceDetailDto:
       type: object
       properties:
-        id:
+        deviceId:
           type: number
         deviceName:
           type: string
       required:
-        - id
+        - deviceId
         - deviceName
     DeviceCommandPowerDetailDto:
       type: object
@@ -276,80 +338,3 @@ components:
         - label
         - productId
         - icon
-    DeviceCommandAppRequestDto:
-      type: object
-      properties:
-        value:
-          type: string
-      required:
-        - value
-    DeviceCommandKeyDto:
-      type: object
-      properties:
-        value:
-          type: string
-          enum:
-            - NRC_POWER-ONOFF
-            - NRC_RECLIST-ONOFF
-            - NRC_DISP_MODE-ONOFF
-            - NRC_CHG_INPUT-ONOFF
-            - NRC_DATA-ONOFF
-            - NRC_APPS-ONOFF
-            - NRC_MENU-ONOFF
-            - NRC_BLUE-ONOFF
-            - NRC_RED-ONOFF
-            - NRC_GREEN-ONOFF
-            - NRC_YELLOW-ONOFF
-            - NRC_SUBMENU-ONOFF
-            - NRC_HOME-ONOFF
-            - NRC_EPG-ONOFF
-            - NRC_RETURN-ONOFF
-            - NRC_UP-ONOFF
-            - NRC_DOWN-ONOFF
-            - NRC_LEFT-ONOFF
-            - NRC_RIGHT-ONOFF
-            - NRC_ENTER-ONOFF
-            - NRC_NET_TD-ONOFF
-            - NRC_NET_BS-ONOFF
-            - NRC_NET_CS-ONOFF
-            - NRC_D1-ONOFF
-            - NRC_D2-ONOFF
-            - NRC_D3-ONOFF
-            - NRC_D4-ONOFF
-            - NRC_D5-ONOFF
-            - NRC_D6-ONOFF
-            - NRC_D7-ONOFF
-            - NRC_D8-ONOFF
-            - NRC_D9-ONOFF
-            - NRC_D0-ONOFF
-            - NRC_D11-ONOFF
-            - NRC_D12-ONOFF
-            - NRC_CANCEL-ONOFF
-            - NRC_MUTE-ONOFF
-            - NRC_CH_UP-ONOFF
-            - NRC_CH_DOWN-ONOFF
-            - NRC_VOLUP-ONOFF
-            - NRC_VOLDOWN-ONOFF
-            - NRC_SKIP_PREV-ONOFF
-            - NRC_SKIP_NEXT-ONOFF
-            - NRC_REW-ONOFF
-            - NRC_FF-ONOFF
-            - NRC_REC-ONOFF
-            - NRC_STOP-ONOFF
-            - NRC_PAUSE-ONOFF
-            - NRC_PLAY-ONOFF
-            - NRC_MPX-ONOFF
-            - NRC_ECO-ONOFF
-            - NRC_VIERA_LINK-ONOFF
-            - NRC_30S_SKIP-ONOFF
-            - NRC_GUIDE-ONOFF
-            - NRC_SPLIT-ONOFF
-            - NRC_CC-ONOFF
-            - NRC_OFFTIMER-ONOFF
-            - MACRO_TV-ONOFF
-            - MACRO_VIDEO-ONOFF
-            - MACRO_HDMI2-ONOFF
-            - MACRO_HDMI3-ONOFF
-            - MACRO_HDMI4-ONOFF
-      required:
-        - value

@@ -5,15 +5,12 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseEnumPipe,
   Post,
 } from '@nestjs/common';
 import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { VieraClient, VieraKey } from 'panasonic-viera-ts';
-import {
-  DeviceCommandAppDetailDto,
-  DeviceCommandAppRequestDto,
-} from 'src/dto/device-command.app.dto';
-import { DeviceCommandKeyDto } from 'src/dto/device-command.key.dto';
+import { DeviceCommandAppDetailDto } from 'src/dto/device-command.app.dto';
 import { DeviceCommandMuteDto } from 'src/dto/device-command.mute.dto';
 import {
   DeviceCommandPowerDetailDto,
@@ -29,30 +26,30 @@ export class DeviceCommandController {
   constructor(private readonly deviceService: DeviceService) {}
 
   @ApiParam({
-    name: 'id',
+    name: 'deviceId',
     description: 'Device ID',
     required: true,
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.OK, type: DeviceCommandPowerDetailDto })
-  @Get(':id/command/power')
+  @Get(':deviceId/command/power')
   async getPower(
-    @Param('id', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', VieraClientPipe) client: VieraClient,
   ): Promise<DeviceCommandPowerDetailDto> {
     const powerOn = await client.isPowerOn();
     return { state: powerOn ? 'ON' : 'OFF' };
   }
 
   @ApiParam({
-    name: 'id',
+    name: 'deviceId',
     description: 'Device ID',
     required: true,
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.OK, type: DeviceCommandPowerDetailDto })
-  @Post(':id/command/power')
+  @Post(':deviceId/command/power')
   async setPower(
-    @Param('id', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', VieraClientPipe) client: VieraClient,
     @Body() data: DeviceCommandPowerRequestDto,
   ): Promise<DeviceCommandPowerDetailDto> {
     const powerOn = await client.isPowerOn();
@@ -69,15 +66,15 @@ export class DeviceCommandController {
   }
 
   @ApiParam({
-    name: 'id',
+    name: 'deviceId',
     description: 'Device ID',
     required: true,
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.OK, type: DeviceCommandVolumeDto })
-  @Get(':id/command/volume')
+  @Get(':deviceId/command/volume')
   async getVolume(
-    @Param('id', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', VieraClientPipe) client: VieraClient,
   ): Promise<DeviceCommandVolumeDto> {
     const volume = await client.getVolume();
 
@@ -85,54 +82,54 @@ export class DeviceCommandController {
   }
 
   @ApiParam({
-    name: 'id',
+    name: 'deviceId',
     description: 'Device ID',
     required: true,
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.NO_CONTENT })
-  @Post(':id/command/volume')
+  @Post(':deviceId/command/volume')
   @HttpCode(HttpStatus.NO_CONTENT)
   async setVolume(
-    @Param('id', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', VieraClientPipe) client: VieraClient,
     @Body() data: DeviceCommandVolumeDto,
   ): Promise<void> {
     await client.setVolume(data.value);
   }
 
   @ApiParam({
-    name: 'id',
+    name: 'deviceId',
     description: 'Device ID',
     required: true,
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.OK, type: DeviceCommandMuteDto })
-  @Get(':id/command/mute')
+  @Get(':deviceId/command/mute')
   async getMute(
-    @Param('id', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', VieraClientPipe) client: VieraClient,
   ): Promise<DeviceCommandMuteDto> {
     const mute = await client.getMute();
     return { value: mute };
   }
 
   @ApiParam({
-    name: 'id',
+    name: 'deviceId',
     description: 'Device ID',
     required: true,
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.NO_CONTENT })
-  @Post(':id/command/mute')
+  @Post(':deviceId/command/mute')
   @HttpCode(HttpStatus.NO_CONTENT)
   async setMute(
-    @Param('id', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', VieraClientPipe) client: VieraClient,
     @Body() data: DeviceCommandMuteDto,
   ): Promise<void> {
     await client.setMute(data.value);
   }
 
   @ApiParam({
-    name: 'id',
+    name: 'deviceId',
     description: 'Device ID',
     required: true,
     type: Number,
@@ -142,9 +139,9 @@ export class DeviceCommandController {
     type: DeviceCommandAppDetailDto,
     isArray: true,
   })
-  @Get(':id/command/apps')
+  @Get(':deviceId/command/apps')
   async getApps(
-    @Param('id', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', VieraClientPipe) client: VieraClient,
   ): Promise<DeviceCommandAppDetailDto[]> {
     const apps = await client.getApps();
 
@@ -156,7 +153,7 @@ export class DeviceCommandController {
   }
 
   @ApiParam({
-    name: 'id',
+    name: 'deviceId',
     description: 'Device ID',
     required: true,
     type: Number,
@@ -164,30 +161,38 @@ export class DeviceCommandController {
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
   })
-  @Post(':id/command/app')
+  @Post(':deviceId/command/launchApp/:productId')
   @HttpCode(HttpStatus.NO_CONTENT)
   async setApp(
-    @Param('id', VieraClientPipe) client: VieraClient,
-    @Body() data: DeviceCommandAppRequestDto,
+    @Param('deviceId', VieraClientPipe) client: VieraClient,
+    @Param('productId') productId: string,
   ): Promise<void> {
-    await client.launchApp(data.value);
+    await client.launchApp(productId);
   }
 
   @ApiParam({
-    name: 'id',
+    name: 'deviceId',
     description: 'Device ID',
     required: true,
     type: Number,
   })
+  @ApiParam({
+    name: 'vieraKey',
+    description: 'Viera Key',
+    required: true,
+    type: String,
+    enum: Object.values(VieraKey),
+  })
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
   })
-  @Post(':id/command/key')
+  @Post(':deviceId/command/sendKey/:vieraKey')
   @HttpCode(HttpStatus.NO_CONTENT)
   async setKey(
-    @Param('id', VieraClientPipe) client: VieraClient,
-    @Body() data: DeviceCommandKeyDto,
+    @Param('deviceId', VieraClientPipe) client: VieraClient,
+    @Param('vieraKey', new ParseEnumPipe(Object.values(VieraKey)))
+    key: VieraKey,
   ): Promise<void> {
-    await client.sendKey(data.value);
+    await client.sendKey(key);
   }
 }

@@ -15,7 +15,7 @@ import { DateTimeTransformer } from 'typeorm-util-ts';
 export class Device {
   @ApiProperty()
   @PrimaryGeneratedColumn({ type: 'integer' })
-  id!: number;
+  deviceId!: number;
 
   @ApiProperty()
   @Column('text')

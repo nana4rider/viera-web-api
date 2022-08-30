@@ -13,7 +13,7 @@ export class DeviceService {
     return this.deviceRepository.find();
   }
 
-  findOne(id: number): Promise<Device> {
-    return this.deviceRepository.findOne({ where: { id } });
+  findOne(deviceId: number): Promise<Device> {
+    return this.deviceRepository.findOne({ where: { deviceId } });
   }
 }

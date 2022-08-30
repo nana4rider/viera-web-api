@@ -14,24 +14,23 @@ export class DeviceController {
   @Get()
   async index() {
     const devices = await this.deviceService.find();
-    return devices.map((device) => ({
-      id: device.id,
-      deviceName: device.deviceName,
+    return devices.map(({ deviceId, deviceName }) => ({
+      deviceId,
+      deviceName,
     }));
   }
 
   @ApiParam({
-    name: 'id',
+    name: 'deviceId',
     description: 'Device ID',
     required: true,
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.OK, type: DeviceDetailDto })
-  @Get(':id')
-  async findOne(@Param('id', DevicePipe) device: Device) {
-    return {
-      id: device.id,
-      deviceName: device.deviceName,
-    };
+  @Get(':deviceId')
+  async findOne(
+    @Param('deviceId', DevicePipe) { deviceId, deviceName }: Device,
+  ): Promise<DeviceDetailDto> {
+    return { deviceId, deviceName };
   }
 }
