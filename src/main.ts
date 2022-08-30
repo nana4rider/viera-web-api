@@ -16,7 +16,6 @@ async function bootstrap() {
     .setDescription('VIERA Unofficial Web API')
     .setVersion('2.0')
     .setBasePath(basePath)
-    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
