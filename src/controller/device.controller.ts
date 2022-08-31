@@ -27,6 +27,7 @@ export class DeviceController {
   ) {}
 
   @ApiResponse({ status: HttpStatus.OK, type: DeviceDetailDto, isArray: true })
+  @ApiOperation({ summary: 'デバイスの一覧を取得' })
   @Get()
   async index(): Promise<DeviceDetailDto[]> {
     const devices = await this.deviceService.find();

@@ -3,6 +3,7 @@ paths:
   /devices:
     get:
       operationId: DeviceController_index
+      summary: デバイスの一覧を取得
       parameters: []
       responses:
         '200':
