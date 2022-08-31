@@ -39,8 +39,5 @@ lerna-debug.log*
 config.yaml
 pm2.config.js
 
-# Data file
-.data/*
-
 # gitkeep
 !.gitkeep
