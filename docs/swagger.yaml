@@ -52,7 +52,7 @@ paths:
                 $ref: '#/components/schemas/DeviceCommandPowerDetailDto'
       tags: &ref_1
         - command
-    post:
+    put:
       operationId: DeviceCommandController_setPower
       parameters:
         - name: deviceId
@@ -68,12 +68,8 @@ paths:
             schema:
               $ref: '#/components/schemas/DeviceCommandPowerRequestDto'
       responses:
-        '200':
+        '204':
           description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DeviceCommandPowerDetailDto'
       tags: *ref_1
   /v2/devices/{deviceId}/command/volume:
     get:
@@ -93,7 +89,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/DeviceCommandVolumeDto'
       tags: *ref_1
-    post:
+    put:
       operationId: DeviceCommandController_setVolume
       parameters:
         - name: deviceId
@@ -130,7 +126,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/DeviceCommandMuteDto'
       tags: *ref_1
-    post:
+    put:
       operationId: DeviceCommandController_setMute
       parameters:
         - name: deviceId
@@ -185,7 +181,7 @@ paths:
           schema:
             type: string
       responses:
-        '204':
+        '200':
           description: ''
       tags: *ref_1
   /v2/devices/{deviceId}/command/sendKey/{vieraKey}:
@@ -268,7 +264,7 @@ paths:
               - MACRO_HDMI3-ONOFF
               - MACRO_HDMI4-ONOFF
       responses:
-        '204':
+        '200':
           description: ''
       tags: *ref_1
 info:

@@ -7,6 +7,7 @@ import {
   Param,
   ParseEnumPipe,
   Post,
+  Put,
 } from '@nestjs/common';
 import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { VieraClient, VieraKey } from 'panasonic-viera-ts';
@@ -46,23 +47,22 @@ export class DeviceCommandController {
     required: true,
     type: Number,
   })
-  @ApiResponse({ status: HttpStatus.OK, type: DeviceCommandPowerDetailDto })
-  @Post(':deviceId/command/power')
+  @ApiResponse({ status: HttpStatus.NO_CONTENT })
+  @Put(':deviceId/command/power')
+  @HttpCode(HttpStatus.NO_CONTENT)
   async setPower(
     @Param('deviceId', VieraClientPipe) client: VieraClient,
     @Body() data: DeviceCommandPowerRequestDto,
-  ): Promise<DeviceCommandPowerDetailDto> {
+  ): Promise<void> {
     const powerOn = await client.isPowerOn();
     if (
       (data.state === 'ON' && powerOn) ||
       (data.state === 'OFF' && !powerOn)
     ) {
-      return { state: powerOn ? 'ON' : 'OFF' };
+      return;
     }
 
     await client.sendKey(VieraKey.power);
-
-    return { state: powerOn ? 'OFF' : 'ON' };
   }
 
   @ApiParam({
@@ -88,7 +88,7 @@ export class DeviceCommandController {
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.NO_CONTENT })
-  @Post(':deviceId/command/volume')
+  @Put(':deviceId/command/volume')
   @HttpCode(HttpStatus.NO_CONTENT)
   async setVolume(
     @Param('deviceId', VieraClientPipe) client: VieraClient,
@@ -119,7 +119,7 @@ export class DeviceCommandController {
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.NO_CONTENT })
-  @Post(':deviceId/command/mute')
+  @Put(':deviceId/command/mute')
   @HttpCode(HttpStatus.NO_CONTENT)
   async setMute(
     @Param('deviceId', VieraClientPipe) client: VieraClient,
@@ -159,10 +159,10 @@ export class DeviceCommandController {
     type: Number,
   })
   @ApiResponse({
-    status: HttpStatus.NO_CONTENT,
+    status: HttpStatus.OK,
   })
   @Post(':deviceId/command/launchApp/:productId')
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpCode(HttpStatus.OK)
   async setApp(
     @Param('deviceId', VieraClientPipe) client: VieraClient,
     @Param('productId') productId: string,
@@ -184,10 +184,10 @@ export class DeviceCommandController {
     enum: Object.values(VieraKey),
   })
   @ApiResponse({
-    status: HttpStatus.NO_CONTENT,
+    status: HttpStatus.OK,
   })
   @Post(':deviceId/command/sendKey/:vieraKey')
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpCode(HttpStatus.OK)
   async setKey(
     @Param('deviceId', VieraClientPipe) client: VieraClient,
     @Param('vieraKey', new ParseEnumPipe(Object.values(VieraKey)))
