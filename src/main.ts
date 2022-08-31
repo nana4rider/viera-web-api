@@ -7,23 +7,30 @@ import { AppModule } from './module/app.module';
 
 async function bootstrap() {
   const basePath = 'v2';
+  const port = process.env.PORT ? Number(process.env.PORT) : 3000;
   const app = await NestFactory.create(AppModule);
+
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
-  app.setGlobalPrefix(basePath);
 
   const options = new DocumentBuilder()
-    .setTitle('VIERA Unofficial Web API')
+    .setTitle('viera-web-api')
     .setDescription('VIERA Unofficial Web API')
     .setVersion('2.0')
-    .setBasePath(basePath)
+    .setLicense('ISC', 'https://licenses.opensource.jp/ISC/ISC.html')
+    .addServer(`http://localhost:${port}/${basePath}`)
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
 
-  fs.writeFileSync('./docs/swagger.yaml', dump(document, {}));
   SwaggerModule.setup('/docs', app, document);
 
-  await app.listen(process.env.PORT ? Number(process.env.PORT) : 3000);
+  if (process.env.NODE_ENV === 'development') {
+    fs.writeFileSync('./docs/swagger.yaml', dump(document, {}));
+  }
+
+  app.setGlobalPrefix(basePath);
+
+  await app.listen(port);
 }
 
 bootstrap();

@@ -1,6 +1,6 @@
 openapi: 3.0.0
 paths:
-  /v2/devices:
+  /devices:
     get:
       operationId: DeviceController_index
       parameters: []
@@ -15,7 +15,7 @@ paths:
                   $ref: '#/components/schemas/DeviceDetailDto'
       tags: &ref_0
         - devices
-  /v2/devices/{deviceId}:
+  /devices/{deviceId}:
     get:
       operationId: DeviceController_findOne
       parameters:
@@ -33,7 +33,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/DeviceDetailDto'
       tags: *ref_0
-  /v2/devices/{deviceId}/command/power:
+  /devices/{deviceId}/command/power:
     get:
       operationId: DeviceCommandController_getPower
       parameters:
@@ -71,7 +71,7 @@ paths:
         '204':
           description: ''
       tags: *ref_1
-  /v2/devices/{deviceId}/command/volume:
+  /devices/{deviceId}/command/volume:
     get:
       operationId: DeviceCommandController_getVolume
       parameters:
@@ -108,7 +108,7 @@ paths:
         '204':
           description: ''
       tags: *ref_1
-  /v2/devices/{deviceId}/command/mute:
+  /devices/{deviceId}/command/mute:
     get:
       operationId: DeviceCommandController_getMute
       parameters:
@@ -145,7 +145,7 @@ paths:
         '204':
           description: ''
       tags: *ref_1
-  /v2/devices/{deviceId}/command/apps:
+  /devices/{deviceId}/command/apps:
     get:
       operationId: DeviceCommandController_getApps
       parameters:
@@ -165,7 +165,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/DeviceCommandAppDetailDto'
       tags: *ref_1
-  /v2/devices/{deviceId}/command/launchApp/{productId}:
+  /devices/{deviceId}/command/launchApp/{productId}:
     post:
       operationId: DeviceCommandController_setApp
       parameters:
@@ -184,7 +184,7 @@ paths:
         '200':
           description: ''
       tags: *ref_1
-  /v2/devices/{deviceId}/command/sendKey/{vieraKey}:
+  /devices/{deviceId}/command/sendKey/{vieraKey}:
     post:
       operationId: DeviceCommandController_setKey
       parameters:
@@ -268,12 +268,16 @@ paths:
           description: ''
       tags: *ref_1
 info:
-  title: VIERA Unofficial Web API
+  title: viera-web-api
   description: VIERA Unofficial Web API
   version: '2.0'
   contact: {}
+  license:
+    name: ISC
+    url: https://licenses.opensource.jp/ISC/ISC.html
 tags: []
-servers: []
+servers:
+  - url: http://localhost:3003/v2
 components:
   schemas:
     DeviceDetailDto:

@@ -1,4 +1,6 @@
-# VIERA Unofficial Web API
+# viera-web-api
+
+VIERA Unofficial Web API
 
 ## VIERAとのペアリング方法(appIdとencKeyの取得)
 
