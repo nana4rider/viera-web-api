@@ -2,6 +2,10 @@
 
 VIERA Unofficial Web API
 
+## APIドキュメント
+
+https://nana4rider.github.io/viera-web-api/
+
 ## VIERAとのペアリング方法(appIdとencKeyの取得)
 
 ### デバイスを登録する
@@ -12,10 +16,6 @@ https://nana4rider.github.io/viera-web-api/#/auth/DeviceAuthController_displayPi
 
 ### PINコードを認証する
 https://nana4rider.github.io/viera-web-api/#/auth/DeviceAuthController_auth
-
-## APIドキュメント
-
-https://nana4rider.github.io/viera-web-api/
 
 ## データベース構成の変更
 ```
