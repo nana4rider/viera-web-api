@@ -26,12 +26,12 @@ export class Device {
   host!: string;
 
   @ApiProperty()
-  @Column('text')
-  appId!: string;
+  @Column({ nullable: true, type: 'text' })
+  appId: string | null;
 
   @ApiProperty()
-  @Column('text')
-  encKey!: string;
+  @Column({ nullable: true, type: 'text' })
+  encKey: string | null;
 
   @CreateDateColumn({
     transformer: DateTimeTransformer.instance,

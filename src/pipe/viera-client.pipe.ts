@@ -16,7 +16,7 @@ export class VieraClientPipe implements PipeTransform<string> {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async transform(value: string, metadata: ArgumentMetadata) {
-    const client = await this.vieraClientService.get(Number(value));
+    const client = await this.vieraClientService.getAuthorized(Number(value));
     if (!client) throw new NotFoundException();
     return client;
   }

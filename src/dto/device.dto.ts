@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class DeviceDetailDto {
   @ApiProperty()
@@ -9,4 +10,16 @@ export class DeviceDetailDto {
 
   @ApiProperty()
   host: string;
+}
+
+export class DeviceUpsertDto {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  readonly deviceName: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  readonly host: string;
 }

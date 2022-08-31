@@ -14,7 +14,21 @@ paths:
                 items:
                   $ref: '#/components/schemas/DeviceDetailDto'
       tags: &ref_0
-        - devices
+        - device
+    post:
+      operationId: DeviceController_create
+      summary: デバイスを登録
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceUpsertDto'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_0
   /devices/{deviceId}:
     get:
       operationId: DeviceController_findOne
@@ -33,6 +47,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeviceDetailDto'
+      tags: *ref_0
+    put:
+      operationId: DeviceController_update
+      summary: デバイスを更新
+      parameters:
+        - name: deviceId
+          required: true
+          in: path
+          description: Device ID
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceUpsertDto'
+      responses:
+        '204':
+          description: ''
+      tags: *ref_0
+    delete:
+      operationId: DeviceController_remove
+      summary: デバイスを削除
+      parameters:
+        - name: deviceId
+          required: true
+          in: path
+          description: Device ID
+          schema:
+            type: number
+      responses:
+        '204':
+          description: ''
       tags: *ref_0
   /devices/{deviceId}/command/power:
     get:
@@ -277,6 +325,45 @@ paths:
         '200':
           description: ''
       tags: *ref_1
+  /devices/{deviceId}/auth/displayPinCode:
+    post:
+      operationId: DeviceAuthController_displayPinCode
+      summary: PINコードをデバイスの画面に表示
+      parameters:
+        - name: deviceId
+          required: true
+          in: path
+          description: Device ID
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: &ref_2
+        - auth
+  /devices/{deviceId}/auth:
+    put:
+      operationId: DeviceAuthController_auth
+      summary: PINコード認証
+      parameters:
+        - name: deviceId
+          required: true
+          in: path
+          description: Device ID
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceAuthDto'
+      responses:
+        '200':
+          description: PINコードが正しい場合
+        '400':
+          description: PINコードが誤っている場合
+      tags: *ref_2
 info:
   title: VIERA Unofficial Web API
   description: VIERA Unofficial Web API
@@ -301,6 +388,16 @@ components:
           type: string
       required:
         - deviceId
+        - deviceName
+        - host
+    DeviceUpsertDto:
+      type: object
+      properties:
+        deviceName:
+          type: string
+        host:
+          type: string
+      required:
         - deviceName
         - host
     DeviceCommandPowerDetailDto:
@@ -351,3 +448,10 @@ components:
         - label
         - productId
         - icon
+    DeviceAuthDto:
+      type: object
+      properties:
+        pinCode:
+          type: string
+      required:
+        - pinCode
