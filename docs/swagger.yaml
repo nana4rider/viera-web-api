@@ -268,7 +268,7 @@ paths:
           description: ''
       tags: *ref_1
 info:
-  title: viera-web-api
+  title: VIERA Unofficial Web API
   description: VIERA Unofficial Web API
   version: '2.0'
   contact: {}

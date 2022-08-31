@@ -13,7 +13,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
   const options = new DocumentBuilder()
-    .setTitle('viera-web-api')
+    .setTitle('VIERA Unofficial Web API')
     .setDescription('VIERA Unofficial Web API')
     .setVersion('2.0')
     .setLicense('ISC', 'https://licenses.opensource.jp/ISC/ISC.html')
