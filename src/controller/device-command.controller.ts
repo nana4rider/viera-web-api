@@ -9,7 +9,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { VieraClient, VieraKey } from 'panasonic-viera-ts';
 import { DeviceCommandAppDetailDto } from 'src/dto/device-command.app.dto';
 import { DeviceCommandMuteDto } from 'src/dto/device-command.mute.dto';
@@ -33,6 +33,7 @@ export class DeviceCommandController {
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.OK, type: DeviceCommandPowerDetailDto })
+  @ApiOperation({ summary: '電源状態を取得' })
   @Get(':deviceId/command/power')
   async getPower(
     @Param('deviceId', VieraClientPipe) client: VieraClient,
@@ -48,6 +49,7 @@ export class DeviceCommandController {
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.NO_CONTENT })
+  @ApiOperation({ summary: '電源状態を変更' })
   @Put(':deviceId/command/power')
   @HttpCode(HttpStatus.NO_CONTENT)
   async setPower(
@@ -72,6 +74,7 @@ export class DeviceCommandController {
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.OK, type: DeviceCommandVolumeDto })
+  @ApiOperation({ summary: '音量を取得' })
   @Get(':deviceId/command/volume')
   async getVolume(
     @Param('deviceId', VieraClientPipe) client: VieraClient,
@@ -88,6 +91,7 @@ export class DeviceCommandController {
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.NO_CONTENT })
+  @ApiOperation({ summary: '音量を変更' })
   @Put(':deviceId/command/volume')
   @HttpCode(HttpStatus.NO_CONTENT)
   async setVolume(
@@ -104,6 +108,7 @@ export class DeviceCommandController {
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.OK, type: DeviceCommandMuteDto })
+  @ApiOperation({ summary: 'ミュート状態を取得' })
   @Get(':deviceId/command/mute')
   async getMute(
     @Param('deviceId', VieraClientPipe) client: VieraClient,
@@ -119,6 +124,7 @@ export class DeviceCommandController {
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.NO_CONTENT })
+  @ApiOperation({ summary: 'ミュート状態を変更' })
   @Put(':deviceId/command/mute')
   @HttpCode(HttpStatus.NO_CONTENT)
   async setMute(
@@ -139,6 +145,7 @@ export class DeviceCommandController {
     type: DeviceCommandAppDetailDto,
     isArray: true,
   })
+  @ApiOperation({ summary: 'アプリの一覧を取得' })
   @Get(':deviceId/command/apps')
   async getApps(
     @Param('deviceId', VieraClientPipe) client: VieraClient,
@@ -161,6 +168,7 @@ export class DeviceCommandController {
   @ApiResponse({
     status: HttpStatus.OK,
   })
+  @ApiOperation({ summary: 'アプリを起動' })
   @Post(':deviceId/command/launchApp/:productId')
   @HttpCode(HttpStatus.OK)
   async setApp(
@@ -186,6 +194,7 @@ export class DeviceCommandController {
   @ApiResponse({
     status: HttpStatus.OK,
   })
+  @ApiOperation({ summary: 'キーを送信' })
   @Post(':deviceId/command/sendKey/:vieraKey')
   @HttpCode(HttpStatus.OK)
   async setKey(

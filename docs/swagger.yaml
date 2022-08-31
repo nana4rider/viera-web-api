@@ -18,6 +18,7 @@ paths:
   /devices/{deviceId}:
     get:
       operationId: DeviceController_findOne
+      summary: デバイスの詳細を取得
       parameters:
         - name: deviceId
           required: true
@@ -36,6 +37,7 @@ paths:
   /devices/{deviceId}/command/power:
     get:
       operationId: DeviceCommandController_getPower
+      summary: 電源状態を取得
       parameters:
         - name: deviceId
           required: true
@@ -54,6 +56,7 @@ paths:
         - command
     put:
       operationId: DeviceCommandController_setPower
+      summary: 電源状態を変更
       parameters:
         - name: deviceId
           required: true
@@ -74,6 +77,7 @@ paths:
   /devices/{deviceId}/command/volume:
     get:
       operationId: DeviceCommandController_getVolume
+      summary: 音量を取得
       parameters:
         - name: deviceId
           required: true
@@ -91,6 +95,7 @@ paths:
       tags: *ref_1
     put:
       operationId: DeviceCommandController_setVolume
+      summary: 音量を変更
       parameters:
         - name: deviceId
           required: true
@@ -111,6 +116,7 @@ paths:
   /devices/{deviceId}/command/mute:
     get:
       operationId: DeviceCommandController_getMute
+      summary: ミュート状態を取得
       parameters:
         - name: deviceId
           required: true
@@ -128,6 +134,7 @@ paths:
       tags: *ref_1
     put:
       operationId: DeviceCommandController_setMute
+      summary: ミュート状態を変更
       parameters:
         - name: deviceId
           required: true
@@ -148,6 +155,7 @@ paths:
   /devices/{deviceId}/command/apps:
     get:
       operationId: DeviceCommandController_getApps
+      summary: アプリの一覧を取得
       parameters:
         - name: deviceId
           required: true
@@ -168,6 +176,7 @@ paths:
   /devices/{deviceId}/command/launchApp/{productId}:
     post:
       operationId: DeviceCommandController_setApp
+      summary: アプリを起動
       parameters:
         - name: deviceId
           required: true
@@ -187,6 +196,7 @@ paths:
   /devices/{deviceId}/command/sendKey/{vieraKey}:
     post:
       operationId: DeviceCommandController_setKey
+      summary: キーを送信
       parameters:
         - name: deviceId
           required: true
@@ -287,9 +297,12 @@ components:
           type: number
         deviceName:
           type: string
+        host:
+          type: string
       required:
         - deviceId
         - deviceName
+        - host
     DeviceCommandPowerDetailDto:
       type: object
       properties:

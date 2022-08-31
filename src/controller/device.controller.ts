@@ -1,5 +1,5 @@
 import { Controller, Get, HttpStatus, Param } from '@nestjs/common';
-import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeviceDetailDto } from 'src/dto/device.dto';
 import { Device } from 'src/entity/device.entity';
 import { DevicePipe } from 'src/pipe/device.pipe';
@@ -12,11 +12,12 @@ export class DeviceController {
 
   @ApiResponse({ status: HttpStatus.OK, type: DeviceDetailDto, isArray: true })
   @Get()
-  async index() {
+  async index(): Promise<DeviceDetailDto[]> {
     const devices = await this.deviceService.find();
-    return devices.map(({ deviceId, deviceName }) => ({
+    return devices.map(({ deviceId, deviceName, host }) => ({
       deviceId,
       deviceName,
+      host,
     }));
   }
 
@@ -27,10 +28,11 @@ export class DeviceController {
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.OK, type: DeviceDetailDto })
+  @ApiOperation({ summary: 'デバイスの詳細を取得' })
   @Get(':deviceId')
   async findOne(
-    @Param('deviceId', DevicePipe) { deviceId, deviceName }: Device,
+    @Param('deviceId', DevicePipe) { deviceId, deviceName, host }: Device,
   ): Promise<DeviceDetailDto> {
-    return { deviceId, deviceName };
+    return { deviceId, deviceName, host };
   }
 }

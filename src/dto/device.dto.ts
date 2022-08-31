@@ -6,4 +6,7 @@ export class DeviceDetailDto {
 
   @ApiProperty()
   deviceName: string;
+
+  @ApiProperty()
+  host: string;
 }
