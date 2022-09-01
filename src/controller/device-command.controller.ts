@@ -11,14 +11,14 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { VieraClient, VieraKey } from 'panasonic-viera-ts';
-import { DeviceCommandAppDetailDto } from 'src/dto/device-command.app.dto';
-import { DeviceCommandMuteDto } from 'src/dto/device-command.mute.dto';
+import { DeviceCommandAppDetailDto } from '../dto/device-command.app.dto';
+import { DeviceCommandMuteDto } from '../dto/device-command.mute.dto';
 import {
   DeviceCommandPowerDetailDto,
   DeviceCommandPowerRequestDto,
-} from 'src/dto/device-command.power.dto';
-import { DeviceCommandVolumeDto } from 'src/dto/device-command.volume.dto';
-import { VieraClientPipe } from 'src/pipe/viera-client.pipe';
+} from '../dto/device-command.power.dto';
+import { DeviceCommandVolumeDto } from '../dto/device-command.volume.dto';
+import { VieraClientPipe } from '../pipe/viera-client.pipe';
 import { DeviceService } from '../service/device.service';
 
 @Controller('devices')

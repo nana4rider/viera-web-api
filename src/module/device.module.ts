@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VieraClient } from 'panasonic-viera-ts';
-import { DeviceAuthController } from 'src/controller/device-auth.controller';
-import { DeviceCommandController } from 'src/controller/device-command.controller';
+import { DeviceAuthController } from '../controller/device-auth.controller';
+import { DeviceCommandController } from '../controller/device-command.controller';
 import { DeviceController } from '../controller/device.controller';
 import { Device } from '../entity/device.entity';
 import { DeviceService } from '../service/device.service';

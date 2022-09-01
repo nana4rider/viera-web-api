@@ -18,5 +18,6 @@
     "./dist/**/*",
     "node_modules/**/*",
     ".git/**/*"
-  ]
+  ],
+  "typescript.preferences.importModuleSpecifier": "relative"
 }

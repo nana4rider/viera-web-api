@@ -11,10 +11,10 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { DeviceDetailDto, DeviceUpsertDto } from 'src/dto/device.dto';
-import { Device } from 'src/entity/device.entity';
-import { VieraClientService } from 'src/module/device.module';
-import { DevicePipe } from 'src/pipe/device.pipe';
+import { DeviceDetailDto, DeviceUpsertDto } from '../dto/device.dto';
+import { Device } from '../entity/device.entity';
+import { VieraClientService } from '../module/device.module';
+import { DevicePipe } from '../pipe/device.pipe';
 import { DeviceService } from '../service/device.service';
 
 @Controller('devices')

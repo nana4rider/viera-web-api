@@ -5,7 +5,7 @@ import {
   NotFoundException,
   PipeTransform,
 } from '@nestjs/common';
-import { VieraClientService } from 'src/module/device.module';
+import { VieraClientService } from '../module/device.module';
 
 @Injectable()
 export class VieraClientPipe implements PipeTransform<string> {
