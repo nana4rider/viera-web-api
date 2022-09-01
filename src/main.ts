@@ -12,19 +12,19 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
-  const options = new DocumentBuilder()
-    .setTitle('VIERA Unofficial Web API')
-    .setDescription('VIERA Unofficial Web API')
-    .setVersion('2.0')
-    .setLicense('ISC', 'https://licenses.opensource.jp/ISC/ISC.html')
-    .addServer(`http://localhost:${port}/${basePath}`)
-    .build();
-
-  const document = SwaggerModule.createDocument(app, options);
-
-  SwaggerModule.setup('/docs', app, document);
-
   if (process.env.NODE_ENV === 'development') {
+    const options = new DocumentBuilder()
+      .setTitle('VIERA Unofficial Web API')
+      .setDescription('VIERA Unofficial Web API')
+      .setVersion('2.0')
+      .setLicense('ISC', 'https://licenses.opensource.jp/ISC/ISC.html')
+      .addServer(`http://localhost:${port}/${basePath}`)
+      .build();
+
+    const document = SwaggerModule.createDocument(app, options);
+
+    SwaggerModule.setup('/docs', app, document);
+
     fs.writeFileSync('./docs/swagger.yaml', dump(document, {}));
   }
 
