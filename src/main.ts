@@ -18,7 +18,7 @@ async function bootstrap() {
       .setDescription('VIERA Unofficial Web API')
       .setVersion('2.0')
       .setLicense('ISC', 'https://licenses.opensource.jp/ISC/ISC.html')
-      .addServer(`http://localhost:${port}/${basePath}`)
+      .addServer(`http://raspberrypi1.local:3003/${basePath}`)
       .build();
 
     const document = SwaggerModule.createDocument(app, options);

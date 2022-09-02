@@ -375,7 +375,7 @@ info:
     url: https://licenses.opensource.jp/ISC/ISC.html
 tags: []
 servers:
-  - url: http://localhost:3003/v2
+  - url: http://raspberrypi1.local:3003/v2
 components:
   schemas:
     DeviceDetailDto:
