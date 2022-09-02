@@ -1,18 +1,14 @@
 import {
   ArgumentMetadata,
-  Inject,
   Injectable,
   NotFoundException,
   PipeTransform,
 } from '@nestjs/common';
-import { VieraClientService } from '../module/device.module';
+import { VieraClientService } from '../service/viera-client.service';
 
 @Injectable()
 export class VieraClientPipe implements PipeTransform<string> {
-  constructor(
-    @Inject('VieraClientService')
-    private readonly vieraClientService: VieraClientService,
-  ) {}
+  constructor(private readonly vieraClientService: VieraClientService) {}
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async transform(value: string, metadata: ArgumentMetadata) {

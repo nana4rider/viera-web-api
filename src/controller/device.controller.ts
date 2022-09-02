@@ -5,7 +5,6 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Inject,
   Param,
   Post,
   Put,
@@ -13,16 +12,15 @@ import {
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeviceDetailDto, DeviceUpsertDto } from '../dto/device.dto';
 import { Device } from '../entity/device.entity';
-import { VieraClientService } from '../module/device.module';
 import { DevicePipe } from '../pipe/device.pipe';
 import { DeviceService } from '../service/device.service';
+import { VieraClientService } from '../service/viera-client.service';
 
 @Controller('devices')
 @ApiTags('device')
 export class DeviceController {
   constructor(
     private readonly deviceService: DeviceService,
-    @Inject('VieraClientService')
     private readonly vieraClientService: VieraClientService,
   ) {}
 
