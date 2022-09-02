@@ -2,6 +2,7 @@
   "files.exclude": {
     "dist/**/*": true,
     "node_modules/**/*": true,
+    "docs/**/swagger-ui*": true,
   },
   "files.autoGuessEncoding": true,
   "typescript.validate.enable": true,
