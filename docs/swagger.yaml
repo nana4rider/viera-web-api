@@ -340,6 +340,8 @@ paths:
       responses:
         '200':
           description: ''
+        '503':
+          description: デバイスの電源が入っていない場合
       tags: &ref_2
         - auth
   /devices/{deviceId}/auth:
@@ -375,6 +377,7 @@ info:
     url: https://licenses.opensource.jp/ISC/ISC.html
 tags: []
 servers:
+  - url: http://localhost:3003/v2
   - url: http://raspberrypi1.local:3003/v2
 components:
   schemas:

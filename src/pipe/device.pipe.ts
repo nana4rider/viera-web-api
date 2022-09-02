@@ -1,19 +1,18 @@
-import {
-  ArgumentMetadata,
-  Injectable,
-  NotFoundException,
-  PipeTransform,
-} from '@nestjs/common';
+import { Injectable, NotFoundException, PipeTransform } from '@nestjs/common';
+import { Device } from '../entity/device.entity';
 import { DeviceService } from '../service/device.service';
 
 @Injectable()
-export class DevicePipe implements PipeTransform<string> {
+export class DevicePipe implements PipeTransform<number, Promise<Device>> {
   constructor(private readonly deviceService: DeviceService) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async transform(value: string, metadata: ArgumentMetadata) {
-    const device = await this.deviceService.findOne(Number(value));
-    if (!device) throw new NotFoundException();
+  async transform(deviceId: number) {
+    const device = await this.deviceService.findOne(deviceId);
+
+    if (!device) {
+      throw new NotFoundException();
+    }
+
     return device;
   }
 }

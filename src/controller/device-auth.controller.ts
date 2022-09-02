@@ -3,10 +3,12 @@ import {
   Body,
   Controller,
   HttpStatus,
+  Logger,
   Param,
   ParseIntPipe,
   Post,
   Put,
+  ServiceUnavailableException,
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeviceAuthDto } from '../dto/device-auth.dto';
@@ -18,6 +20,8 @@ import { VieraClientService } from '../service/viera-client.service';
 @Controller('devices')
 @ApiTags('auth')
 export class DeviceAuthController {
+  private readonly logger = new Logger(DeviceAuthController.name);
+
   constructor(
     private readonly deviceService: DeviceService,
     private readonly vieraClientService: VieraClientService,
@@ -30,13 +34,22 @@ export class DeviceAuthController {
     type: Number,
   })
   @ApiResponse({ status: HttpStatus.OK })
+  @ApiResponse({
+    status: HttpStatus.SERVICE_UNAVAILABLE,
+    description: 'デバイスの電源が入っていない場合',
+  })
   @ApiOperation({ summary: 'PINコードをデバイスの画面に表示' })
   @Post(':deviceId/auth/displayPinCode')
   async displayPinCode(
-    @Param('deviceId', ParseIntPipe) deviceId: number,
+    @Param('deviceId', ParseIntPipe, DevicePipe) device: Device,
   ): Promise<void> {
-    const client = await this.vieraClientService.getUnauthorized(deviceId);
-    await client.displayPinCode();
+    const client = await this.vieraClientService.getClient(device, true);
+    try {
+      await client.displayPinCode();
+    } catch (err) {
+      this.logger.error(err);
+      throw new ServiceUnavailableException();
+    }
   }
 
   @ApiParam({
@@ -56,17 +69,15 @@ export class DeviceAuthController {
     @Param('deviceId', DevicePipe) device: Device,
     @Body() { pinCode }: DeviceAuthDto,
   ): Promise<void> {
-    const client = await this.vieraClientService.getUnauthorized(
-      device.deviceId,
-    );
+    const client = await this.vieraClientService.getClient(device, true);
 
     try {
-      const auth = await client.requestAuth(pinCode);
-      device.appId = auth.appId;
-      device.encKey = auth.encKey;
-      this.vieraClientService.authorized(device.deviceId);
+      const { appId, encKey } = await client.requestAuth(pinCode);
+
+      device.appId = appId;
+      device.encKey = encKey;
     } catch (err) {
-      console.error(err);
+      this.logger.error(err);
       throw new BadRequestException('Invalid PINCode.');
     }
 

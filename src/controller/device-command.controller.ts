@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   ParseEnumPipe,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -18,6 +19,7 @@ import {
   DeviceCommandPowerRequestDto,
 } from '../dto/device-command.power.dto';
 import { DeviceCommandVolumeDto } from '../dto/device-command.volume.dto';
+import { DevicePipe } from '../pipe/device.pipe';
 import { VieraClientPipe } from '../pipe/viera-client.pipe';
 import { DeviceService } from '../service/device.service';
 
@@ -36,7 +38,8 @@ export class DeviceCommandController {
   @ApiOperation({ summary: '電源状態を取得' })
   @Get(':deviceId/command/power')
   async getPower(
-    @Param('deviceId', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', ParseIntPipe, DevicePipe, VieraClientPipe)
+    client: VieraClient,
   ): Promise<DeviceCommandPowerDetailDto> {
     const powerOn = await client.isPowerOn();
     return { state: powerOn ? 'ON' : 'OFF' };
@@ -53,7 +56,8 @@ export class DeviceCommandController {
   @Put(':deviceId/command/power')
   @HttpCode(HttpStatus.NO_CONTENT)
   async setPower(
-    @Param('deviceId', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', ParseIntPipe, DevicePipe, VieraClientPipe)
+    client: VieraClient,
     @Body() data: DeviceCommandPowerRequestDto,
   ): Promise<void> {
     const powerOn = await client.isPowerOn();
@@ -77,7 +81,8 @@ export class DeviceCommandController {
   @ApiOperation({ summary: '音量を取得' })
   @Get(':deviceId/command/volume')
   async getVolume(
-    @Param('deviceId', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', ParseIntPipe, DevicePipe, VieraClientPipe)
+    client: VieraClient,
   ): Promise<DeviceCommandVolumeDto> {
     const volume = await client.getVolume();
 
@@ -95,7 +100,8 @@ export class DeviceCommandController {
   @Put(':deviceId/command/volume')
   @HttpCode(HttpStatus.NO_CONTENT)
   async setVolume(
-    @Param('deviceId', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', ParseIntPipe, DevicePipe, VieraClientPipe)
+    client: VieraClient,
     @Body() data: DeviceCommandVolumeDto,
   ): Promise<void> {
     await client.setVolume(data.value);
@@ -111,7 +117,8 @@ export class DeviceCommandController {
   @ApiOperation({ summary: 'ミュート状態を取得' })
   @Get(':deviceId/command/mute')
   async getMute(
-    @Param('deviceId', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', ParseIntPipe, DevicePipe, VieraClientPipe)
+    client: VieraClient,
   ): Promise<DeviceCommandMuteDto> {
     const mute = await client.getMute();
     return { value: mute };
@@ -128,7 +135,8 @@ export class DeviceCommandController {
   @Put(':deviceId/command/mute')
   @HttpCode(HttpStatus.NO_CONTENT)
   async setMute(
-    @Param('deviceId', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', ParseIntPipe, DevicePipe, VieraClientPipe)
+    client: VieraClient,
     @Body() data: DeviceCommandMuteDto,
   ): Promise<void> {
     await client.setMute(data.value);
@@ -148,7 +156,8 @@ export class DeviceCommandController {
   @ApiOperation({ summary: 'アプリの一覧を取得' })
   @Get(':deviceId/command/apps')
   async getApps(
-    @Param('deviceId', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', ParseIntPipe, DevicePipe, VieraClientPipe)
+    client: VieraClient,
   ): Promise<DeviceCommandAppDetailDto[]> {
     const apps = await client.getApps();
 
@@ -172,7 +181,8 @@ export class DeviceCommandController {
   @Post(':deviceId/command/launchApp/:productId')
   @HttpCode(HttpStatus.OK)
   async setApp(
-    @Param('deviceId', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', ParseIntPipe, DevicePipe, VieraClientPipe)
+    client: VieraClient,
     @Param('productId') productId: string,
   ): Promise<void> {
     await client.launchApp(productId);
@@ -198,7 +208,8 @@ export class DeviceCommandController {
   @Post(':deviceId/command/sendKey/:vieraKey')
   @HttpCode(HttpStatus.OK)
   async setKey(
-    @Param('deviceId', VieraClientPipe) client: VieraClient,
+    @Param('deviceId', ParseIntPipe, DevicePipe, VieraClientPipe)
+    client: VieraClient,
     @Param('vieraKey', new ParseEnumPipe(Object.values(VieraKey)))
     key: VieraKey,
   ): Promise<void> {

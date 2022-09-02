@@ -82,7 +82,7 @@ export class DeviceController {
       device.host === data.host;
       device.appId = null;
       device.encKey = null;
-      this.vieraClientService.delete(device.deviceId);
+      this.vieraClientService.deleteClient(device);
     }
 
     await this.deviceService.save(device);
@@ -98,10 +98,8 @@ export class DeviceController {
   @ApiOperation({ summary: 'デバイスを削除' })
   @Delete(':deviceId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(
-    @Param('deviceId', DevicePipe) { deviceId }: Device,
-  ): Promise<void> {
-    await this.deviceService.delete(deviceId);
-    this.vieraClientService.delete(deviceId);
+  async remove(@Param('deviceId', DevicePipe) device: Device): Promise<void> {
+    await this.deviceService.delete(device.deviceId);
+    this.vieraClientService.deleteClient(device);
   }
 }

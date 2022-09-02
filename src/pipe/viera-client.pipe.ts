@@ -1,19 +1,17 @@
-import {
-  ArgumentMetadata,
-  Injectable,
-  NotFoundException,
-  PipeTransform,
-} from '@nestjs/common';
+import { Injectable, PipeTransform } from '@nestjs/common';
+import { VieraClient } from 'panasonic-viera-ts';
+import { Device } from '../entity/device.entity';
 import { VieraClientService } from '../service/viera-client.service';
 
 @Injectable()
-export class VieraClientPipe implements PipeTransform<string> {
+export class VieraClientPipe
+  implements PipeTransform<Device, Promise<VieraClient>>
+{
   constructor(private readonly vieraClientService: VieraClientService) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async transform(value: string, metadata: ArgumentMetadata) {
-    const client = await this.vieraClientService.getAuthorized(Number(value));
-    if (!client) throw new NotFoundException();
+  async transform(device: Device): Promise<VieraClient> {
+    const client = await this.vieraClientService.getClient(device);
+
     return client;
   }
 }
