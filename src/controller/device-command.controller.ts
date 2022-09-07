@@ -21,13 +21,10 @@ import {
 import { DeviceCommandVolumeDto } from '../dto/device-command.volume.dto';
 import { DevicePipe } from '../pipe/device.pipe';
 import { VieraClientPipe } from '../pipe/viera-client.pipe';
-import { DeviceService } from '../service/device.service';
 
 @Controller('devices')
 @ApiTags('command')
 export class DeviceCommandController {
-  constructor(private readonly deviceService: DeviceService) {}
-
   @ApiParam({
     name: 'deviceId',
     description: 'Device ID',
