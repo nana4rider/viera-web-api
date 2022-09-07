@@ -66,7 +66,7 @@ export class DeviceAuthController {
   @ApiOperation({ summary: 'PINコード認証' })
   @Put(':deviceId/auth')
   async auth(
-    @Param('deviceId', DevicePipe) device: Device,
+    @Param('deviceId', ParseIntPipe, DevicePipe) device: Device,
     @Body() { pinCode }: DeviceAuthDto,
   ): Promise<void> {
     const client = await this.vieraClientService.getClient(device, true);

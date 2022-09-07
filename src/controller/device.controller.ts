@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -46,7 +47,8 @@ export class DeviceController {
   @ApiOperation({ summary: 'デバイスの詳細を取得' })
   @Get(':deviceId')
   async findOne(
-    @Param('deviceId', DevicePipe) { deviceId, deviceName, host }: Device,
+    @Param('deviceId', ParseIntPipe, DevicePipe)
+    { deviceId, deviceName, host }: Device,
   ): Promise<DeviceDetailDto> {
     return { deviceId, deviceName, host };
   }
@@ -74,7 +76,7 @@ export class DeviceController {
   @Put(':deviceId')
   @HttpCode(HttpStatus.NO_CONTENT)
   async update(
-    @Param('deviceId', DevicePipe) device: Device,
+    @Param('deviceId', ParseIntPipe, DevicePipe) device: Device,
     @Body() data: DeviceUpsertDto,
   ): Promise<void> {
     device.deviceName = data.deviceName;
@@ -98,7 +100,9 @@ export class DeviceController {
   @ApiOperation({ summary: 'デバイスを削除' })
   @Delete(':deviceId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('deviceId', DevicePipe) device: Device): Promise<void> {
+  async remove(
+    @Param('deviceId', ParseIntPipe, DevicePipe) device: Device,
+  ): Promise<void> {
     await this.deviceService.delete(device.deviceId);
     this.vieraClientService.deleteClient(device);
   }
