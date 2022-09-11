@@ -12,14 +12,16 @@ export class VieraClientRepository {
     appId,
     encKey,
   }: Device): Promise<VieraClient> {
-    if (this.clients.has(deviceId)) {
-      return this.clients.get(deviceId);
+    let client = this.clients.get(deviceId);
+    if (client) {
+      return client;
     }
 
-    const client = new VieraClient(host, { appId, encKey });
+    const auth = appId && encKey;
+    client = new VieraClient(host, auth ? { appId, encKey } : undefined);
     this.clients.set(deviceId, client);
 
-    if (appId && encKey) {
+    if (auth) {
       await client.connect();
     }
 
